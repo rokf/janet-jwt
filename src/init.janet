@@ -18,20 +18,26 @@
 (defn- get-sig-fn [alg custom-fn]
   (if (= alg :none) (fn [&] "") custom-fn))
 
-(defn encode [claims &opt alg signature-fn]
+(defn encode
+  "Produces an encoded JWT (JWS if unsigned)."
+  [claims &opt alg signature-fn]
   (default alg :none)
   (let [header (encode-struct {:alg alg :typ "JWT"})
         payload (encode-struct claims)
         header-and-payload (string header "." payload)
         signature ((get-sig-fn alg signature-fn) header-and-payload)] (string header-and-payload "." signature)))
 
-(defn decode [encoded]
+(defn decode
+  "Decodes a JWT, returning its header and payload. Does not do any validation."
+  [encoded]
   (let [parts (string/split "." encoded)
         header (decode-string (in parts 0))
         payload (decode-string (in parts 1))]
     {:header header :payload payload}))
 
-(defn verify [encoded &opt verify-fn]
+(defn verify
+  "Verifies the JWT's signature. Returns true if valid, false otherwise."
+  [encoded &opt verify-fn]
   (let [parts (string/split "." encoded)
         header (decode-string (in parts 0))
         signature (in parts 2)]

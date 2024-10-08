@@ -43,11 +43,26 @@ The `encode` function will return an encoded and signed JWT token (string).
 
 ### `jwt/decode`
 
-@TODO
+The `decode` function takes an encoded JWT (`string`), splits it into parts,
+takes the header and payload (claims), decodes them and returns a struct with
+`:header` and `:payload` keys, where values are `tables` with
+the content.
+
+It does not do any validation or signature verification.
 
 ### `jwt/verify`
 
-@TODO
+The `verify` function takes an encoded JWT (`string`) and optionally a
+verification function, which is expected to take a `string` and return
+a boolean (`true` or `false`), telling if the signature is valid or not.
+
+If the verification function is absent the function will check if the
+encoded JWT has the `:alg` header set to `"none"` and if the signature
+is an empty `string`.
+
+## Examples
+
+Take a look at the files in the `test` folder. The tests are using [judge](https://github.com/ianthehenry/judge). You can run them by simply running `judge` in the root of the repository.
 
 ## License
 
