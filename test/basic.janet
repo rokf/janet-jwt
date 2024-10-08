@@ -15,4 +15,4 @@
       {:header @{:alg "mocked" :typ "JWT"}
        :payload @{:name "Rok"}})
 
-(test (jwt/verify "eyJhbGciOiJtb2NrZWQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUm9rIn0.mocked" (fn [sig] (= sig "mocked"))) true)
+(test (jwt/verify "eyJhbGciOiJtb2NrZWQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUm9rIn0.mocked" (fn [sig hp] (= sig "mocked"))) true)

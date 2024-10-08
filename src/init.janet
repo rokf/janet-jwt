@@ -41,4 +41,4 @@
   (let [parts (string/split "." encoded)
         header (decode-string (in parts 0))
         signature (in parts 2)]
-    (if (= verify-fn nil) (and (= (get header :alg) "none") (= signature "")) (verify-fn signature))))
+    (if (= verify-fn nil) (and (= (get header :alg) "none") (= signature "")) (verify-fn signature (string (in parts 0) "." (in parts 1))))))
