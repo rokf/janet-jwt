@@ -53,8 +53,12 @@ It does not do any validation or signature verification.
 ### `jwt/verify`
 
 The `verify` function takes an encoded JWT (`string`) and optionally a
-verification function, which is expected to take a `string` and return
-a boolean (`true` or `false`), telling if the signature is valid or not.
+verification function, which is expected to take a signature (`string`)
+and a message (`string`) and return a boolean (`true` or `false`),
+telling if the signature is valid or not.
+
+The message will contain the still encoded header and payload, separated
+by a dot - basically the JWT without the signature part.
 
 If the verification function is absent the function will check if the
 encoded JWT has the `:alg` header set to `"none"` and if the signature
