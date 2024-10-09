@@ -1,8 +1,11 @@
 (use judge)
 
 (import jhydro)
+(import spork/base64)
 
 (import ../src :prefix "jwt/")
+
+(import ./base64url)
 
 (def ctx "janetjwt")
 
@@ -10,9 +13,11 @@
 
 (def payload {:name "Rok"})
 
-(def encoded (jwt/encode payload "jhydro" (fn [hp] (jhydro/sign/create hp ctx sec))))
+# The base64 URL encoding here is required because jhydro's signature algorithm occasionally
+# produces output with dots, which broke the signature extraction part of the implementation.
+(def encoded (jwt/encode payload "jhydro" (fn [hp] (base64url/encode (jhydro/sign/create hp ctx sec)))))
 
-(test (jwt/verify encoded (fn [sig hp] (jhydro/sign/verify sig hp ctx pub))) true)
+(test (jwt/verify encoded (fn [sig hp] (jhydro/sign/verify (base64url/decode sig) hp ctx pub))) true)
 
 (def {:header header :payload payload} (jwt/decode encoded))
 
