@@ -13,7 +13,7 @@
   "Decode a base64 URL encoded input string (i)."
   [i]
   (->>
-    (string i (string/repeat "=" (- 4 (% (length i) 4))))
+    (string i (string/repeat "=" (let [remainder (% (length i) 4)] (if (= remainder 0) 0 (- 4 remainder)))))
     (string/replace-all "_" "/")
     (string/replace-all "-" "+")
     (base64/decode)))

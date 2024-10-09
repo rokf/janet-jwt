@@ -1,7 +1,7 @@
 (use judge)
 
+# https://github.com/janet-lang/jhydro
 (import jhydro)
-(import spork/base64)
 
 (import ../src :prefix "jwt/")
 

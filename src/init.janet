@@ -10,7 +10,7 @@
 
 (defn- decode-string [s]
   (json/decode (->>
-                 (string s (string/repeat "=" (- 4 (% (length s) 4))))
+                 (string s (string/repeat "=" (let [remainder (% (length s) 4)] (if (= remainder 0) 0 (- 4 remainder)))))
                  (string/replace-all "_" "/")
                  (string/replace-all "-" "+")
                  (base64/decode)) true))
